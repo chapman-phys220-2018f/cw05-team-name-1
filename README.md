@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/chapman-phys220-2018f/cw05-team-name.svg?branch=master)](https://travis-ci.org/chapman-phys220-2018f/cw05-team-name)
+[![Build Status](https://travis-ci.org/chapman-phys220-2018f/cw05-team-name-1.svg?branch=master)](https://travis-ci.org/chapman-phys220-2018f/cw05-team-name-1)
 
 # PHYS220/MATH220/CPSC220 CW 5
 
