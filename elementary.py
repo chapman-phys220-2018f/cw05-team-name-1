@@ -16,13 +16,13 @@ class Particle(object):
     Args:
         x,y,z (double): Passed into attribute position (1x3 tuple)
     Attributes:
-        mass: Constant = 1
+        mass: Arbitrary constant
         position: 3 element tuple containing x,y,z values passed into constructor
         momentum: 3 element tuple initialized with 0.0. Modified by impulse method
             and used to alter position tuple using move method
     Methods:
         impulse: adds args to current momentum
-        move: adds (current momentum * arg'dt') to current position
+        move: adds (current momentum * arg'dt'/self.mass) to current position
     '''
     def __init__(self,x,y,z):
         self.mass = 1
@@ -50,18 +50,60 @@ class Particle(object):
         self.position = new_position
 
 class ChargedParticle(Particle):
+    '''ChargedParticle class: The ChargedParticle class inherits all functions and properties of Particle class
+    and adds an additional property "charge" equal to the constant for charge in the scipy library
+    Args:
+        x,y,z (double): Passed into attribute position (1x3 tuple)
+    Attributes:
+        mass: Arbitrary constant
+        position: 3 element tuple containing x,y,z values passed into constructor
+        momentum: 3 element tuple initialized with 0.0. Modified by impulse method
+            and used to alter position tuple using move method
+        charge: constant set to charge value in scipy.constants
+    Methods:
+        impulse: adds args to current momentum
+        move: adds (current momentum * arg'dt'/self.mass) to current position
+    '''
     def __init__(self,x,y,z):
         import scipy
         super(ChargedParticle, self).__init__(x,y,z)
         self.charge = scipy.constants.e
         
 class Proton(ChargedParticle):
+    '''Proton class: The Proton class inherits all functions and properties of the ChargedParticle class and changes the 
+    value of the "mass" property to the constant for proton mass from the scipy library
+    Args:
+        x,y,z (double): Passed into attribute position (1x3 tuple)
+    Attributes:
+        mass: Constant equal to proton mass
+        position: 3 element tuple containing x,y,z values passed into constructor
+        momentum: 3 element tuple initialized with 0.0. Modified by impulse method
+            and used to alter position tuple using move method
+        charge: constant set to charge value in scipy.constants
+    Methods:
+        impulse: adds args to current momentum
+        move: adds (current momentum * arg'dt'/self.mass) to current position
+    '''
     def __init__(self,x,y,z):
         import scipy
         super(Proton, self).__init__(x,y,z)
         self.mass = scipy.constants.m_p
         
 class Electron(ChargedParticle):
+    '''Electron class: The Electron class inherits all functions and properties of the ChargedParticle class and changes the 
+    value of the "mass" property to the constant for electron mass from the scipy library
+    Args:
+        x,y,z (double): Passed into attribute position (1x3 tuple)
+    Attributes:
+        mass: Constant equal to Electron mass
+        position: 3 element tuple containing x,y,z values passed into constructor
+        momentum: 3 element tuple initialized with 0.0. Modified by impulse method
+            and used to alter position tuple using move method
+        charge: constant set to charge value in scipy.constants
+    Methods:
+        impulse: adds args to current momentum
+        move: adds (current momentum * arg'dt'/self.mass) to current position
+    '''
     def __init__(self,x,y,z):
         import scipy
         super(Electron, self).__init__(x,y,z)
