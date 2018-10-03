@@ -9,7 +9,10 @@
 # Assignment: CW 5
 ###
 
+import elementary
 import scipy
+from scipy import constants
+import math
 
 class Particle(object):
 
