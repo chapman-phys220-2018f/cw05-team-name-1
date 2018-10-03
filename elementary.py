@@ -1,57 +1,110 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-
+#!/usr/bin/env python3 
+#-*- coding: utf-8 -*-
 ###
-# Name: Alley Busick
-# Student ID: 2293544
-# Email: busick@chapman.edu
-# Course: PYHS220/MATH220/CPSC220 Fall 2018
-# Assignment: CW 5
+# Name: Jack Savage 
+# Student ID: 2295072 
+# Email: jsavage@chapman.edu 
+# Course: PHYS220/MATH220/CPSC220 Fall 2018 Assignment: CW05
 ###
 
-import scipy
+'''elementary.py
+contains Particle class and derived subclasses'''
 
 class Particle(object):
-
-    #class constructor 
-    def __init__(self, x, y, z):
-        self.mass = (1.0)
-        self.position = (x, y, z)
-        self.momentum = (0.0, 0.0, 0.0)
-
-    #method 1
-    def impulse(self, px, py, pz):
-        #increments each momentum value with indexing []
-        incremented_momentum = (self.momentum[0]+px/self.mass,
-                                self.momentum[1]+py/self.mass,
-                                self.momentum[2]+pz/self.mass)
-        # changes existing momentum (is this overriding?)
-        self.momentum = incremented_momentum
-
-    #method 2
-    def move(self, dt):
-        #p = m(v) -> v = p/m
-        changed_position = (self.position[0]+self.momentum[0]*dt/self.mass,
-                            self.position[1]+self.momentum[1]*dt/self.mass,
-                            self.position[2]+self.momentum[2]*dt/self.mass)
-        self.position = changed_position
-
+    '''Particle class: The particle class is an abstract representation of a real particle. It has a mass, position, and impulse.
+    When time advances (via move and its arg), particle moves in direction of its momentum
+    Args:
+        x,y,z (double): Passed into attribute position (1x3 tuple)
+    Attributes:
+        mass: Arbitrary constant
+        position: 3 element tuple containing x,y,z values passed into constructor
+        momentum: 3 element tuple initialized with 0.0. Modified by impulse method
+            and used to alter position tuple using move method
+    Methods:
+        impulse: adds args to current momentum
+        move: adds (current momentum * arg'dt'/self.mass) to current position
+    '''
+    def __init__(self,x,y,z):
+        self.mass = 1
+        self.position = (x,y,z)
+        self.momentum = (0.0,0.0,0.0)
+   
+    def impulse(self,px,py,pz):
+        '''Impulse method: Takes args and modifies momentum tuple by arg values
+        Args: 
+            px,py,pz (double): value by which to increase (or decrease if negative) momentum
+        Returns: 
+            Nothing: But changes value of momentum'''
+        new_momentum = (self.momentum[0]+px/self.mass,self.momentum[1]+py/self.mass,self.momentum[2]+pz/self.mass)
+        self.momentum = new_momentum
+        
+    def move(self,dt):
+        '''Move method: Modifies position tuple by values of momentum tuple times arg dt
+        Args:
+            dt: values of momentum are multiplied by this value before being added to position tuple
+        Returns:
+            Nothing: But changes value of position'''
+        new_position = (self.position[0]+self.momentum[0]*dt/self.mass,
+                        self.position[1]+self.momentum[1]*dt/self.mass,
+                        self.position[2]+self.momentum[2]*dt/self.mass)
+        self.position = new_position
 
 class ChargedParticle(Particle):
-
-    def __init__(self):
+    '''ChargedParticle class: The ChargedParticle class inherits all functions and properties of Particle class
+    and adds an additional property "charge" equal to the constant for charge in the scipy library
+    Args:
+        x,y,z (double): Passed into attribute position (1x3 tuple)
+    Attributes:
+        mass: Arbitrary constant
+        position: 3 element tuple containing x,y,z values passed into constructor
+        momentum: 3 element tuple initialized with 0.0. Modified by impulse method
+            and used to alter position tuple using move method
+        charge: constant set to charge value in scipy.constants
+    Methods:
+        impulse: adds args to current momentum
+        move: adds (current momentum * arg'dt'/self.mass) to current position
+    '''
+    def __init__(self,x,y,z):
+        import scipy
         super(ChargedParticle, self).__init__(x,y,z)
-        self.charge = scipy.constant.e
-
-class Electron(ChargedParticle):
-
-    def __init__(self):
-        super(Electron, self).__init__(x,y,z)
-        self.mass = scipy.constants.electron_mass
-
+        self.charge = scipy.constants.e
+        
 class Proton(ChargedParticle):
-
-    def __init__(self):
+    '''Proton class: The Proton class inherits all functions and properties of the ChargedParticle class and changes the 
+    value of the "mass" property to the constant for proton mass from the scipy library
+    Args:
+        x,y,z (double): Passed into attribute position (1x3 tuple)
+    Attributes:
+        mass: Constant equal to proton mass
+        position: 3 element tuple containing x,y,z values passed into constructor
+        momentum: 3 element tuple initialized with 0.0. Modified by impulse method
+            and used to alter position tuple using move method
+        charge: constant set to charge value in scipy.constants
+    Methods:
+        impulse: adds args to current momentum
+        move: adds (current momentum * arg'dt'/self.mass) to current position
+    '''
+    def __init__(self,x,y,z):
+        import scipy
         super(Proton, self).__init__(x,y,z)
-        self.mass = scipy.constants.proton_mass
-
+        self.mass = scipy.constants.m_p
+        
+class Electron(ChargedParticle):
+    '''Electron class: The Electron class inherits all functions and properties of the ChargedParticle class and changes the 
+    value of the "mass" property to the constant for electron mass from the scipy library
+    Args:
+        x,y,z (double): Passed into attribute position (1x3 tuple)
+    Attributes:
+        mass: Constant equal to Electron mass
+        position: 3 element tuple containing x,y,z values passed into constructor
+        momentum: 3 element tuple initialized with 0.0. Modified by impulse method
+            and used to alter position tuple using move method
+        charge: constant set to charge value in scipy.constants
+    Methods:
+        impulse: adds args to current momentum
+        move: adds (current momentum * arg'dt'/self.mass) to current position
+    '''
+    def __init__(self,x,y,z):
+        import scipy
+        super(Electron, self).__init__(x,y,z)
+        self.mass = scipy.constants.m_e
