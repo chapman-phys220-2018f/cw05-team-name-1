@@ -35,7 +35,7 @@ class Particle(object):
             px,py,pz (double): value by which to increase (or decrease if negative) momentum
         Returns: 
             Nothing: But changes value of momentum'''
-        new_momentum = (self.momentum[0]+px,self.momentum[1]+py,self.momentum[2]+pz)
+        new_momentum = (self.momentum[0]+px/self.mass,self.momentum[1]+py/self.mass,self.momentum[2]+pz/self.mass)
         self.momentum = new_momentum
         
     def move(self,dt):
